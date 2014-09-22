@@ -75,10 +75,6 @@ public abstract class AbstractJob<I,O> implements Job<I,O>, Runnable {
 		
 	public boolean start() {
 		preStart();
-		while(abstractInputProducer==null || abstractOutputConsumer==null){
-			logger.debug(abstractInputProducer+" : "+abstractOutputConsumer);
-			ThreadUtil.sleep(100);
-		}
 		if(inputProducerThread==null || !inputProducerThread.isAlive()){
 			logger.info("Creating new inputProducerThread...");			
 			this.abstractInputProducer.setFinished(false);
