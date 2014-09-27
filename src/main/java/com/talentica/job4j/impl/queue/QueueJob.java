@@ -19,7 +19,6 @@ import com.talentica.job4j.impl.DefaultInputProducer;
 import com.talentica.job4j.impl.DefaultOutputConsumer;
 import com.talentica.job4j.impl.DefaultTask;
 import com.talentica.job4j.impl.JThreadPoolExecutor;
-import com.talentica.job4j.model.JobDetail;
 import com.talentica.job4j.model.JobStatus;
 import com.talentica.job4j.util.ThreadUtil;
 
