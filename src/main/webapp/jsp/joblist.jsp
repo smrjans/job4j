@@ -38,14 +38,14 @@
 				<td>${job.name}</td>
 				<td>${job.status}</td>
 				
-				<td>${job.startTime}</td>
-				<td>${job.elapsedTime}</td>	
-				<td>${job.scheduledEndTime}</td>
-				<td>${job.scheduledStartTime}</td>
+				<td>${job.jobStatus.startTime}</td>
+				<td>${job.jobStatus.elapsedTime}</td>	
+				<td>${job.jobStatus.scheduledEndTime}</td>
+				<td>${job.jobStatus.scheduledStartTime}</td>
 				
-				<td>${job.completedTaskCount}/${job.submittedTaskCount}</td>
-				<td>${job.activeTaskCount}</td>	
-				<td>${job.currentThreadCount}/${job.maxThreadCount}</td>
+				<td>${job.jobStatus.completedTaskCount}/${job.jobStatus.submittedTaskCount}</td>
+				<td>${job.jobStatus.activeTaskCount}</td>	
+				<td>${job.jobStatus.currentThreadCount}/${job.maxThreadCount}</td>
 				
 				<td>${job.inputQueue.size()}</td>				
 				<td>${job.workQueue.size()}</td>		
