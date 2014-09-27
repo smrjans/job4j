@@ -1,16 +1,11 @@
-package com.talentica.job4j.model;
+/*package com.talentica.job4j.model;
 
 import com.talentica.job4j.constant.RecoveryTypeEnum;
 
-public class JobDetail{
+public abstract class JobDetail extends JobSchedule{
 	
 	protected String name;
 	protected String description;
-
-	protected String timeZone;
-	protected String startCronSchedule;
-	protected String stopCronSchedule;
-	protected boolean isContinous;
 	
 	protected int maxThreadCount;
 	protected long threadSleepTime = 1000l;
@@ -31,30 +26,6 @@ public class JobDetail{
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public String getTimeZone() {
-		return timeZone;
-	}
-	public void setTimeZone(String timeZone) {
-		this.timeZone = timeZone;
-	}
-	public String getStartCronSchedule() {
-		return startCronSchedule;
-	}
-	public void setStartCronSchedule(String startCronSchedule) {
-		this.startCronSchedule = startCronSchedule;
-	}
-	public String getStopCronSchedule() {
-		return stopCronSchedule;
-	}
-	public void setStopCronSchedule(String stopCronSchedule) {
-		this.stopCronSchedule = stopCronSchedule;
-	}
-	public boolean isContinous() {
-		return isContinous;
-	}
-	public void setContinous(boolean isContinous) {
-		this.isContinous = isContinous;
 	}
 	public int getMaxThreadCount() {
 		return maxThreadCount;
@@ -93,3 +64,4 @@ public class JobDetail{
 		this.recoveryType = recoveryType;
 	}	
 }
+*/

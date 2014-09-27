@@ -1,12 +1,13 @@
-package com.talentica.job4j.test;
+package com.talentica.job4j.test.job1;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.talentica.job4j.api.InputProducer;
+import com.talentica.job4j.test.model.A;
 
-public class TestInputProducer implements InputProducer<A> {
-	private static final Logger logger = LoggerFactory.getLogger(TestInputProducer.class);
+public class Job1InputProducer implements InputProducer<A> {
+	private static final Logger logger = LoggerFactory.getLogger(Job1InputProducer.class);
 	private int num=1000;
 
 	public A produceInput() {

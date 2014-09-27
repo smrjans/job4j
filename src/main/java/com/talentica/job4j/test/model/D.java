@@ -1,6 +1,6 @@
-package com.talentica.job4j.test;
+package com.talentica.job4j.test.model;
 
-public class B {
+public class D {
 	private int id;
 	private String name;
 	private String description;
@@ -24,7 +24,7 @@ public class B {
 	}
 	@Override
 	public String toString() {
-		return "B [id=" + id + ", name=" + name + ", description="
+		return "D [id=" + id + ", name=" + name + ", description="
 				+ description + "]";
 	}
 

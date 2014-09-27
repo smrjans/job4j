@@ -1,25 +1,81 @@
 package com.talentica.job4j.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.talentica.job4j.api.Job;
 import com.talentica.job4j.api.JobManager;
+import com.talentica.job4j.model.JobFlow;
+import com.talentica.job4j.model.JobGroup;
 
 public class JobManagerImpl implements JobManager{	
 	private static final Logger logger = LoggerFactory.getLogger(JobManagerImpl.class);
-	
-	@Autowired	
-	private  List<Job> jobList;
 
-	public List<Job> getJobList() {
-		return jobList;
-	}
+	@Autowired	
+	private List<Job> jobList;
+
+	@Autowired	
+	private List<JobGroup> jobGroupList;
+
+	@Autowired	
+	private List<JobFlow> jobFlowList;
+
+	private Map<Job, List<JobGroup>> jobGroupByJobMap = new HashMap<Job, List<JobGroup>>();
+	private Map<JobGroup, List<JobFlow>> jobFlowByJobGroupMap = new HashMap<JobGroup, List<JobFlow>>();
+	
+	@PostConstruct
+	public void init() {		
+		for(Job job : jobList){
+			List<JobGroup> jobGroups = jobGroupByJobMap.get(job);
+			if(jobGroups==null){
+				jobGroups = new ArrayList<JobGroup>();
+				jobGroupByJobMap.put(job, jobGroups);
+			}
+			for(JobGroup jobGroup : jobGroupList){
+				if(jobGroup.getJobList().contains(job)){
+					jobGroups.add(jobGroup);
+				}				
+			}
+		}
 		
+		for(JobGroup jobGroup : jobGroupList){
+			List<JobFlow> jobFlows = jobFlowByJobGroupMap.get(jobGroup);
+			if(jobFlows==null){
+				jobFlows = new ArrayList<JobFlow>();
+				jobFlowByJobGroupMap.put(jobGroup, jobFlows);
+			}
+			for(JobFlow jobFlow : jobFlowList){
+				if(jobFlow.getJobGroupList().contains(jobGroup)){
+					jobFlows.add(jobFlow);
+				}
+			}
+		}
+		
+		logger.debug("jobGroupByJobMap >> "+jobGroupByJobMap);
+		logger.debug("jobFlowByJobGroupMap >> "+jobFlowByJobGroupMap);
+		
+		/*if(jobFlowList!=null && jobFlowList.size()>0){
+			for(JobFlow jobFlow : jobFlowList){
+				jobFlow.schedule();
+			}
+		}else if(jobGroupList!=null && jobGroupList.size()>0){
+			for(JobGroup jobGroup : jobGroupList){
+				jobGroup.schedule();
+			}
+		}else{		
+			for(Job job : jobList){
+				job.schedule();
+			}
+		}*/
+	}
+
 	public boolean processAction(String name, String action){		
 		boolean status=false;	
 		for(Job job : jobList){
@@ -39,4 +95,12 @@ public class JobManagerImpl implements JobManager{
 		return status;			
 	}
 
+
+	public List<Job> getJobList() {
+		return jobList;
+	}	
+
+	public List<JobGroup> getJobGroupList() {
+		return jobGroupList;
+	}
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class JobStatus {
 	
+	protected boolean isAborted;
 	protected String status;
 	protected Date scheduledStartTime;
 	protected Date startTime;	
@@ -14,11 +15,7 @@ public class JobStatus {
 	protected long submittedTaskCount;
 	protected int activeTaskCount;
 	protected long completedTaskCount;
-	
-	protected int currentThreadCount;	
-	protected long currentInputQueueSize;
-	protected long currentWorkQueueSize;
-	protected long currentOutputQueueSize;
+	protected int currentThreadCount;
 	
 	public String getStatus() {
 		return status;
@@ -81,23 +78,16 @@ public class JobStatus {
 	public void setCurrentThreadCount(int currentThreadCount) {
 		this.currentThreadCount = currentThreadCount;
 	}
-	public long getCurrentInputQueueSize() {
-		return currentInputQueueSize;
-	}
-	public void setCurrentInputQueueSize(long currentInputQueueSize) {
-		this.currentInputQueueSize = currentInputQueueSize;
-	}
-	public long getCurrentWorkQueueSize() {
-		return currentWorkQueueSize;
-	}
-	public void setCurrentWorkQueueSize(long currentWorkQueueSize) {
-		this.currentWorkQueueSize = currentWorkQueueSize;
-	}
-	public long getCurrentOutputQueueSize() {
-		return currentOutputQueueSize;
-	}
-	public void setCurrentOutputQueueSize(long currentOutputQueueSize) {
-		this.currentOutputQueueSize = currentOutputQueueSize;
+	@Override
+	public String toString() {
+		return "JobStatus [isAborted=" + isAborted + ", status=" + status
+				+ ", scheduledStartTime=" + scheduledStartTime + ", startTime="
+				+ startTime + ", elapsedTime=" + elapsedTime + ", endTime="
+				+ endTime + ", scheduledEndTime=" + scheduledEndTime
+				+ ", submittedTaskCount=" + submittedTaskCount
+				+ ", activeTaskCount=" + activeTaskCount
+				+ ", completedTaskCount=" + completedTaskCount
+				+ ", currentThreadCount=" + currentThreadCount + "]";
 	}
 	
 }

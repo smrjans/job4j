@@ -9,19 +9,19 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
   	
-    <bean id="testInputProducer" class="com.talentica.job4j.test.TestInputProducer"/>
-    <bean id="testTask" class="com.talentica.job4j.test.TestTask" scope="prototype"/>
-    <bean id="testOutputConsumer" class="com.talentica.job4j.test.TestOutputConsumer"/> 
+    <bean id="job3InputProducer" class="com.talentica.job4j.test.job3.Job3InputProducer"/>
+    <bean id="job3Task" class="com.talentica.job4j.test.job3.Job3Task" scope="prototype"/>
+    <bean id="job3OutputConsumer" class="com.talentica.job4j.test.job3.Job3OutputConsumer"/> 
  	
-	<bean id="testJob" class="com.talentica.job4j.impl.queue.QueueJob">
-		<property name="name" value="TestJob" />
+	<bean id="testJob3" class="com.talentica.job4j.impl.queue.QueueJob">
+		<property name="name" value="TestJob3" />
 		<property name="startCronSchedule" value="0 * * * *" />
 		<property name="stopCronSchedule" value="55 * * * *" />				
 		<property name="timeZone" value="IST" />
 		
-		<property name="inputProducer" ref="testInputProducer" />		
-		<property name="task" ref="testTask" />
-		<property name="outputConsumer" ref="testOutputConsumer" />	
+		<property name="inputProducer" ref="job3InputProducer" />		
+		<property name="task" ref="job3Task" />
+		<property name="outputConsumer" ref="job3OutputConsumer" />	
 		
 		<property name="maxThreadCount" value="5" />
   		<property name="threadSleepTime" value="4000" />

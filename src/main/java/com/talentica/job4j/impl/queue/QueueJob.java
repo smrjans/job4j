@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.talentica.job4j.constant.JobStatusEnum;
 import com.talentica.job4j.impl.AbstractInputProducer;
 import com.talentica.job4j.impl.AbstractJob;
 import com.talentica.job4j.impl.AbstractOutputConsumer;
@@ -19,6 +20,7 @@ import com.talentica.job4j.impl.DefaultOutputConsumer;
 import com.talentica.job4j.impl.DefaultTask;
 import com.talentica.job4j.impl.JThreadPoolExecutor;
 import com.talentica.job4j.model.JobDetail;
+import com.talentica.job4j.model.JobStatus;
 import com.talentica.job4j.util.ThreadUtil;
 
 public class QueueJob<I,O> extends AbstractJob<I, O> { 
@@ -92,29 +94,51 @@ public class QueueJob<I,O> extends AbstractJob<I, O> {
 		logger.info(name+" stopped!!");		
 	}
 
+	public JobStatus getJobStatus() {
+		String status = "ready";
+		if(threadPoolExecutor!=null){
+			jobStatus.setSubmittedTaskCount(threadPoolExecutor.getTaskCount());
+			jobStatus.setActiveTaskCount(threadPoolExecutor.getActiveCount());
+			jobStatus.setCompletedTaskCount(threadPoolExecutor.getCompletedTaskCount());	
+			jobStatus.setCurrentThreadCount(threadPoolExecutor.getPoolSize());
 
+			if(threadPoolExecutor.isTerminated()){
+				status = JobStatusEnum.COMPLETED.name();
+			} else if(threadPoolExecutor.isTerminating()){
+				status = JobStatusEnum.STOPPING.name();
+			} else if(threadPoolExecutor.isShutdown()){
+				status = JobStatusEnum.STOPPING.name();		
+			} else if(threadPoolExecutor.isPaused()){
+				status = JobStatusEnum.PAUSED.name();
+			} else if(threadPoolExecutor.getActiveCount() > 0){
+				status = JobStatusEnum.RUNNING.name();
+			} 
+		}
+		jobStatus.setStatus(status);
+		return jobStatus;
+	}
 
 	public String getStatus() {
 		String status = "ready";
 		if(threadPoolExecutor!=null){
-			this.submittedTaskCount = threadPoolExecutor.getTaskCount();
-			this.activeTaskCount = threadPoolExecutor.getActiveCount();
-			this.completedTaskCount = threadPoolExecutor.getCompletedTaskCount();	
-			this.currentThreadCount = threadPoolExecutor.getPoolSize();
+			jobStatus.setSubmittedTaskCount(threadPoolExecutor.getTaskCount());
+			jobStatus.setActiveTaskCount(threadPoolExecutor.getActiveCount());
+			jobStatus.setCompletedTaskCount(threadPoolExecutor.getCompletedTaskCount());	
+			jobStatus.setCurrentThreadCount(threadPoolExecutor.getPoolSize());
 
 			if(threadPoolExecutor.isTerminated()){
-				status = "completed";
+				status = JobStatusEnum.COMPLETED.name();
 			} else if(threadPoolExecutor.isTerminating()){
-				status = "stopping";
+				status = JobStatusEnum.STOPPING.name();
 			} else if(threadPoolExecutor.isShutdown()){
-				status = "no new task";		
+				status = JobStatusEnum.STOPPING.name();		
 			} else if(threadPoolExecutor.isPaused()){
-				status = "paused";
-			} else if(activeTaskCount > 0){
-				status = "running";
+				status = JobStatusEnum.PAUSED.name();
+			} else if(threadPoolExecutor.getActiveCount() > 0){
+				status = JobStatusEnum.RUNNING.name();
 			} 
 		}
-		this.status = status;
+		jobStatus.setStatus(status);
 		return status;
 
 	}
@@ -155,6 +179,6 @@ public class QueueJob<I,O> extends AbstractJob<I, O> {
 			this.abstractOutputConsumer = new DefaultOutputConsumer<O>(outputConsumer);
 		}
 		this.abstractOutputConsumer.setJob(this);
-	}	
+	}
 
 }

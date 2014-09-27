@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<import resource="classpath:test-job1.xml" />
+	<import resource="classpath:test-job2.xml" />
+	<import resource="classpath:test-job3.xml" />
+	
+	<bean id="jobGroup1" class="com.talentica.job4j.model.JobGroup">
+		<property name="jobList">
+			<list>
+				<ref bean="testJob1"/>
+				<ref bean="testJob2"/>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- <util:list id="jobGroup2" value-type="com.talentica.job4j.model.JobGroup">
+		<ref bean="testJob2" />
+	</util:list> -->
+	
+	<bean id="jobFlow1" class="com.talentica.job4j.model.JobFlow">
+		<property name="jobGroupList">
+			<list>
+				<ref bean="jobGroup1"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

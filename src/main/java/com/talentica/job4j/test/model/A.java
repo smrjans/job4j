@@ -1,4 +1,4 @@
-package com.talentica.job4j.test;
+package com.talentica.job4j.test.model;
 
 public class A {
 	private int id;
