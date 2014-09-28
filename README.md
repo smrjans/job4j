@@ -32,13 +32,13 @@ Easy Configuration (currently using spring context file) to create Job:
  	
   	<bean id="testJob1" class="com.talentica.job4j.impl.queue.QueueJob">
 	  	<property name="name" value="TestJob1" />
-		  <property name="startCronSchedule" value="0 * * * *" />
-		  <property name="stopCronSchedule" value="55 * * * *" />				
-		  <property name="timeZone" value="IST" />
+		<property name="startCronSchedule" value="0 * * * *" />
+		<property name="stopCronSchedule" value="55 * * * *" />				
+		<property name="timeZone" value="IST" />
 		
   		<property name="inputProducer" ref="job1InputProducer" />		
 	  	<property name="task" ref="job1Task" />
-		  <property name="outputConsumer" ref="job1OutputConsumer" />	
+		<property name="outputConsumer" ref="job1OutputConsumer" />	
 		
 	  	<property name="maxThreadCount" value="5" />
   		<property name="threadSleepTime" value="4000" />
