@@ -9,8 +9,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.activemq.filter.function.splitFunction;
-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.steps.idSeekLeafPlanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
