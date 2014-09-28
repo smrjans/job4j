@@ -117,31 +117,6 @@ public class QueueJob<I,O> extends AbstractJob<I, O> {
 		return jobStatus;
 	}
 
-	public String getStatus() {
-		String status = "ready";
-		if(threadPoolExecutor!=null){
-			jobStatus.setSubmittedTaskCount(threadPoolExecutor.getTaskCount());
-			jobStatus.setActiveTaskCount(threadPoolExecutor.getActiveCount());
-			jobStatus.setCompletedTaskCount(threadPoolExecutor.getCompletedTaskCount());	
-			jobStatus.setCurrentThreadCount(threadPoolExecutor.getPoolSize());
-
-			if(threadPoolExecutor.isTerminated()){
-				status = JobStatusEnum.COMPLETED.name();
-			} else if(threadPoolExecutor.isTerminating()){
-				status = JobStatusEnum.STOPPING.name();
-			} else if(threadPoolExecutor.isShutdown()){
-				status = JobStatusEnum.STOPPING.name();		
-			} else if(threadPoolExecutor.isPaused()){
-				status = JobStatusEnum.PAUSED.name();
-			} else if(threadPoolExecutor.getActiveCount() > 0){
-				status = JobStatusEnum.RUNNING.name();
-			} 
-		}
-		jobStatus.setStatus(status);
-		return status;
-
-	}
-
 	public BlockingQueue<I> getInputQueue() {
 		return inputQueue;
 	}

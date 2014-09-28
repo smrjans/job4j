@@ -1,17 +1,27 @@
 package com.talentica.job4j.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import com.talentica.job4j.api.JobControl;
 import com.talentica.job4j.util.CronUtil;
 
-public class JobFlow extends JobSchedule{
-	
+public class JobFlow extends JobSchedule implements JobControl{
+	private String name;
+	private JobStatus jobStatus = new JobStatus();
 	private List<JobGroup> jobGroupList;
 	
 	@PostConstruct
 	public void init() {
+		if(name==null){
+			name="";
+			for(JobGroup jobGroup : jobGroupList){
+				name+=jobGroup.getName();
+			}
+			name+="Flow";
+		}
 		if(startCronSchedule==null){
 			startCronSchedule = jobGroupList.get(0).getStartCronSchedule();
 			stopCronSchedule = jobGroupList.get(0).getStopCronSchedule();
@@ -28,6 +38,16 @@ public class JobFlow extends JobSchedule{
 		}
 	}
 	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public JobStatus getJobStatus() {
+		return jobStatus;
+	}
+
 	public List<JobGroup> getJobGroupList() {
 		return jobGroupList;
 	}
@@ -39,11 +59,35 @@ public class JobFlow extends JobSchedule{
 		for(JobGroup jobGroup : jobGroupList){
 			jobGroup.start();
 		}
+		jobStatus.setStartTime(new Date());
+		jobStatus.setStopTime(null);
 		return true;
 	}
 	public boolean stop() {
 		for(JobGroup jobGroup : jobGroupList){
 			jobGroup.stop();
+		}
+		jobStatus.setStopTime(new Date());
+		return true;
+	}
+
+	public boolean pause() {
+		for(JobGroup jobGroup : jobGroupList){
+			jobGroup.pause();
+		}
+		return true;
+	}
+
+	public boolean resume() {
+		for(JobGroup jobGroup : jobGroupList){
+			jobGroup.resume();
+		}
+		return true;
+	}
+
+	public boolean abort() {
+		for(JobGroup jobGroup : jobGroupList){
+			jobGroup.abort();
 		}
 		return true;
 	}

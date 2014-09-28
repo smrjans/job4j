@@ -1,17 +1,30 @@
 package com.talentica.job4j.model;
 
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
 import com.talentica.job4j.api.Job;
+import com.talentica.job4j.api.JobControl;
+import com.talentica.job4j.constant.JobStatusEnum;
 import com.talentica.job4j.util.CronUtil;
 
-public class JobGroup extends JobSchedule{	
+public class JobGroup extends JobSchedule implements JobControl{	
+	protected String name;
+	protected JobStatus jobStatus = new JobStatus();
 	private List<Job> jobList;
 
 	@PostConstruct
 	public void init() {
+		if(name==null){
+			name="";
+			for(Job job : jobList){
+				name+=job.getName();
+			}
+			name+="Group";
+		}
 		if(startCronSchedule==null){
 			startCronSchedule = jobList.get(0).getStartCronSchedule();
 			stopCronSchedule = jobList.get(0).getStopCronSchedule();
@@ -28,6 +41,21 @@ public class JobGroup extends JobSchedule{
 		}
 	}
 
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public JobStatus getJobStatus() {
+		String status = "ready";
+		jobStatus.setStatus(status);
+		
+		return jobStatus;
+	}
+
+
 	public List<Job> getJobList() {
 		return jobList;
 	}
@@ -39,12 +67,36 @@ public class JobGroup extends JobSchedule{
 		for(Job job : jobList){
 			job.start();
 		}
+		jobStatus.setStartTime(new Date());
+		jobStatus.setStopTime(null);
 		return true;
 	}
 
 	public boolean stop() {
 		for(Job job : jobList){
 			job.stop();
+		}
+		jobStatus.setStopTime(new Date());
+		return true;
+	}
+
+	public boolean pause() {
+		for(Job job : jobList){
+			job.pause();
+		}
+		return true;
+	}
+
+	public boolean resume() {
+		for(Job job : jobList){
+			job.resume();
+		}
+		return true;
+	}
+
+	public boolean abort() {
+		for(Job job : jobList){
+			job.abort();
 		}
 		return true;
 	}

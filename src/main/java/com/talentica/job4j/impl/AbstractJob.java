@@ -1,5 +1,6 @@
 package com.talentica.job4j.impl;
 
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Future;
 
@@ -68,13 +69,17 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 			this.jobThread = new Thread(this, name); 
 			jobThread.start();
 		}
+		
+		jobStatus.setStartTime(new Date());
+		jobStatus.setStopTime(null);
 		return true;
 	}
 
 	public boolean stop() {
 		logger.info("Job "+ this.getClass().getSimpleName() +" stopped...");
 		abstractInputProducer.setFinished(true);
-		postStop();
+		jobStatus.setStopTime(new Date());
+		postStop();		
 		return true;
 	}
 
@@ -93,41 +98,6 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 	}
 	
 
-	/*public JobDetail getJobDetail() {
-		jobDetail.setName(name);
-		jobDetail.setDescription(description);
-		jobDetail.setTimeZone(timeZone);
-		jobDetail.setStartCronSchedule(startCronSchedule);
-		jobDetail.setStopCronSchedule(stopCronSchedule);
-		jobDetail.setContinous(isContinous);
-		
-		jobDetail.setMaxThreadCount(maxThreadCount);
-		jobDetail.setThreadSleepTime(threadSleepTime);
-		jobDetail.setMaxIdleTime(maxIdleTime);
-		
-		jobDetail.setMailingList(mailingList);
-		jobDetail.setEmailEnabled(isEmailEnabled);
-		jobDetail.setRecoveryType(recoveryType);
-		return jobDetail;
-	}
-	
-	public void setJobDetail(JobDetail jobDetail) {
-		this.name = jobDetail.getName();
-		this.description = jobDetail.getDescription();
-		this.timeZone = jobDetail.getTimeZone();
-		this.startCronSchedule = jobDetail.getStartCronSchedule();
-		this.stopCronSchedule = jobDetail.getStopCronSchedule();
-		this.isContinous = jobDetail.isContinous();
-		
-		this.maxThreadCount = jobDetail.getMaxThreadCount();
-		this.threadSleepTime = jobDetail.getThreadSleepTime();
-		this.maxIdleTime = jobDetail.getMaxIdleTime();
-		
-		this.mailingList = jobDetail.getMailingList();
-		this.isEmailEnabled = jobDetail.isEmailEnabled();
-		this.recoveryType = jobDetail.getRecoveryType();
-	}*/
-	
 	public String getName() {
 		return name;
 	}

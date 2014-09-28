@@ -1,6 +1,7 @@
 package com.talentica.job4j.model;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class JobStatus {
 	
@@ -9,8 +10,8 @@ public class JobStatus {
 	protected Date scheduledStartTime;
 	protected Date startTime;	
 	protected String elapsedTime;	
-	protected Date endTime;
-	protected Date scheduledEndTime;
+	protected Date stopTime;
+	protected Date scheduledStopTime;
 	
 	protected long submittedTaskCount;
 	protected int activeTaskCount;
@@ -37,22 +38,32 @@ public class JobStatus {
 		this.startTime = startTime;
 	}
 	public String getElapsedTime() {
+		Date beginTime = startTime!=null?startTime:new Date();
+		Date endTime = stopTime!=null?stopTime:new Date();
+		long millis = endTime.getTime() - beginTime.getTime();
+		long hours = TimeUnit.MILLISECONDS.toHours(millis);
+		millis -= TimeUnit.HOURS.toMillis(hours);
+		long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+		millis -= TimeUnit.MINUTES.toMillis(minutes);
+		long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
+		elapsedTime = String.format("%d:%d:%d", hours,minutes,seconds);
+
 		return elapsedTime;
 	}
 	public void setElapsedTime(String elapsedTime) {
 		this.elapsedTime = elapsedTime;
 	}
-	public Date getEndTime() {
-		return endTime;
+	public Date getStopTime() {
+		return stopTime;
 	}
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
+	public void setStopTime(Date stopTime) {
+		this.stopTime = stopTime;
 	}
-	public Date getScheduledEndTime() {
-		return scheduledEndTime;
+	public Date getScheduledStopTime() {
+		return scheduledStopTime;
 	}
-	public void setScheduledEndTime(Date scheduledEndTime) {
-		this.scheduledEndTime = scheduledEndTime;
+	public void setScheduledStopTime(Date scheduledStopTime) {
+		this.scheduledStopTime = scheduledStopTime;
 	}
 	public long getSubmittedTaskCount() {
 		return submittedTaskCount;
@@ -83,7 +94,7 @@ public class JobStatus {
 		return "JobStatus [isAborted=" + isAborted + ", status=" + status
 				+ ", scheduledStartTime=" + scheduledStartTime + ", startTime="
 				+ startTime + ", elapsedTime=" + elapsedTime + ", endTime="
-				+ endTime + ", scheduledEndTime=" + scheduledEndTime
+				+ stopTime + ", scheduledEndTime=" + scheduledStopTime
 				+ ", submittedTaskCount=" + submittedTaskCount
 				+ ", activeTaskCount=" + activeTaskCount
 				+ ", completedTaskCount=" + completedTaskCount

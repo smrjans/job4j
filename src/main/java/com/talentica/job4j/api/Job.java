@@ -5,14 +5,7 @@ import java.util.concurrent.Future;
 import com.talentica.job4j.model.JobStatus;
 
 
-public interface Job<I,O>{ 
-	
-	public boolean start();	
-	public boolean stop();
-	public boolean pause();
-	public boolean resume();
-	public boolean abort();	
-	public boolean schedule();
+public interface Job<I,O> extends JobControl{ 
 	
 	public O process(I input);
 	public Future<O> submit(I input);

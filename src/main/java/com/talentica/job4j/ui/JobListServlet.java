@@ -41,12 +41,15 @@ public class JobListServlet extends HttpServlet {
 
 		logger.debug("Executing JobList Servlet .... ");
 		
+		String type = request.getParameter("type");
 		String name = request.getParameter("name");
 		String action = request.getParameter("action");
 		if(action!=null){
-			jobManager.processAction(name, action);
+			jobManager.processAction(type, name, action);
 		}
 		
+		request.setAttribute("jobFlowList", jobManager.getJobFlowList());
+		request.setAttribute("jobGroupList", jobManager.getJobGroupList());
 		request.setAttribute("jobList", jobManager.getJobList());
 	    request.getRequestDispatcher("jsp/joblist.jsp").forward(request, response);
 	}
