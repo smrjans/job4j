@@ -15,8 +15,6 @@ import com.talentica.job4j.constant.JobStatusEnum;
 import com.talentica.job4j.impl.AbstractInputProducer;
 import com.talentica.job4j.impl.AbstractJob;
 import com.talentica.job4j.impl.AbstractOutputConsumer;
-import com.talentica.job4j.impl.DefaultInputProducer;
-import com.talentica.job4j.impl.DefaultOutputConsumer;
 import com.talentica.job4j.impl.DefaultTask;
 import com.talentica.job4j.impl.JThreadPoolExecutor;
 import com.talentica.job4j.model.JobStatus;
@@ -76,18 +74,19 @@ public class QueueJob<I,O> extends AbstractJob<I, O> {
 				}
 				logger.debug(abstractInputProducer.isFinished() +" >>>> "+ inputQueue.isEmpty());
 				if(abstractInputProducer.isFinished() && inputQueue.isEmpty()){
-					threadPoolExecutor.shutdown();
 					while(!threadPoolExecutor.isTerminated()){
+						threadPoolExecutor.shutdown();
 						ThreadUtil.sleep(1000, "Waiting for ThreadPoolExecuter be Terminated");
 					}
 					logger.debug("abstractOutputConsumer.setFinished >> ");
 					abstractOutputConsumer.setFinished(true);
+					stop();
 					break;
 				}
 
 			} catch (Exception e) {
 				logger.error(e.getMessage(),e);
-				ThreadUtil.sleep(1000);
+				ThreadUtil.sleep(1000, e.getMessage());
 			}	
 		}
 		logger.info(name+" stopped!!");		
@@ -143,14 +142,14 @@ public class QueueJob<I,O> extends AbstractJob<I, O> {
 
 	public void setAbstractInputProducer(AbstractInputProducer<I> abstractInputProducer) {
 		if(abstractInputProducer==null){
-			this.abstractInputProducer = new DefaultInputProducer<I>(inputProducer);
+			this.abstractInputProducer = new DefaultQueueInputProducer<I>(inputProducer);
 		}
 		this.abstractInputProducer.setJob(this);
 	}
 
 	public void setAbstractOutputConsumer(AbstractOutputConsumer<O> abstractOutputConsumer) {
 		if(abstractOutputConsumer==null){
-			this.abstractOutputConsumer = new DefaultOutputConsumer<O>(outputConsumer);
+			this.abstractOutputConsumer = new DefaultQueueOutputConsumer<O>(outputConsumer);
 		}
 		this.abstractOutputConsumer.setJob(this);
 	}

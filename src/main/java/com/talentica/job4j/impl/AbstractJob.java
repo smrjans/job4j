@@ -173,16 +173,27 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 	
 	public abstract JobStatus getJobStatus();
 
+	public InputProducer<I> getInputProducer() {
+		return inputProducer;
+	}
 	public void setInputProducer(InputProducer<I> inputProducer) {
 		this.inputProducer = inputProducer;
+		setAbstractInputProducer(null);
 	}
 
+	public Task<I, O> getTask() {
+		return task;
+	}
 	public void setTask(Task<I, O> task) {
 		this.task = task;
 	}
 
+	public OutputConsumer<O> getOutputConsumer() {
+		return outputConsumer;
+	}
 	public void setOutputConsumer(OutputConsumer<O> outputConsumer) {
 		this.outputConsumer = outputConsumer;
+		setAbstractOutputConsumer(null);
 	}	
 	
 	// Start: Temporary	
@@ -206,7 +217,7 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 	}
 	
 	
-	@PostConstruct
+	/*@PostConstruct
 	public void init() {
 		if(abstractInputProducer==null){
 			setAbstractInputProducer(null);
@@ -214,7 +225,7 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 		if(abstractOutputConsumer==null){
 			setAbstractOutputConsumer(null);
 		}
-	}
+	}*/
 	
 	@PreDestroy
 	public void finish() {
@@ -224,4 +235,20 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 	public void finalize(){
 		logger.info("Job garbage collected!!");   	
 	}
+
+	@Override
+	public String toString() {
+		return "AbstractJob [name=" + name + ", description=" + description
+				+ ", maxThreadCount=" + maxThreadCount + ", threadSleepTime="
+				+ threadSleepTime + ", maxIdleTime=" + maxIdleTime
+				+ ", mailingList=" + mailingList + ", isEmailEnabled="
+				+ isEmailEnabled + ", recoveryType=" + recoveryType
+				+ ", jobStatus=" + jobStatus + ", inputProducer="
+				+ inputProducer + ", outputConsumer=" + outputConsumer
+				+ ", task=" + task + ", abstractInputProducer="
+				+ abstractInputProducer + ", abstractOutputConsumer="
+				+ abstractOutputConsumer + ", defaultTask=" + defaultTask
+				+ ", workQueue=" + workQueue + "]";
+	}	
+	
 }

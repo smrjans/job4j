@@ -24,5 +24,4 @@ public class Job1InputProducer implements InputProducer<A> {
 		logger.debug("Produced >> "+a);
 		return a;
 	}
-
 }

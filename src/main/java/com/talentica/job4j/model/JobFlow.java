@@ -45,6 +45,9 @@ public class JobFlow extends JobSchedule implements JobControl{
 		this.name = name;
 	}
 	public JobStatus getJobStatus() {
+		String status = "ready";
+		jobStatus.setStatus(status);
+		
 		return jobStatus;
 	}
 

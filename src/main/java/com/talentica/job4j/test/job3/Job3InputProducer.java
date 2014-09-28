@@ -21,7 +21,7 @@ public class Job3InputProducer implements InputProducer<C> {
 		}else{
 			num=1000;
 		}
-		logger.debug("Produced >> "+c);
+		logger.debug("xxxx Produced >> "+c);
 		return c;
 	}
 

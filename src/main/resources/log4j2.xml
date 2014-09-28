@@ -6,8 +6,8 @@
 			<PatternLayout
 				pattern="%highlight{%d{ISO8601} %-5p [%c:%F:%L] - [%t] - %m%n}{STYLE=Logback}" />
 		</Console>
-		<RollingFile name="RollingFile" fileName="${sys:catalina.home}/logs/debug.log"
-			filePattern="${sys:catalina.home}/logs/debug.log.%d{MM-dd-yyyy-HH}.gz">
+		<RollingFile name="RollingFile" fileName="logs/debug.log"
+			filePattern="logs/debug.log.%d{MM-dd-yyyy-HH}.gz">
 			<PatternLayout>
 				<Pattern>%highlight{%d{ISO8601} %-5p [%c:%F:%L] - [%t] - %m%n}{STYLE=Logback}</Pattern>
 			</PatternLayout>
@@ -18,21 +18,18 @@
 	</Appenders>
 
 	<Loggers>
-		<AsyncLogger name="com.talentica.job4j" level="DEBUG"
-			includeLocation="true">
+		<AsyncLogger name="com.talentica.job4j" level="DEBUG" includeLocation="true" additivity="false">
 			<AppenderRef ref="RollingFile" />
 		</AsyncLogger>
-		<AsyncLogger name="com.talentica.job4j" level="DEBUG"
-			includeLocation="true">
+		<AsyncLogger name="com.talentica.job4j" level="DEBUG" includeLocation="true" additivity="false">
 			<AppenderRef ref="Console" />
 		</AsyncLogger>
-		<AsyncLogger name="org.springframework" level="ERROR"
-			includeLocation="true">
+		<AsyncLogger name="org.springframework" level="ERROR" includeLocation="true" additivity="false">
 			<AppenderRef ref="RollingFile" />
 		</AsyncLogger>
 
-		<AsyncRoot level="WARN" includeLocation="true">
-			<AppenderRef ref="Console" />
+		<AsyncRoot level="WARN" includeLocation="true" additivity="false">
+			<AppenderRef ref="RollingFile" />
 		</AsyncRoot>
 	</Loggers>
 </Configuration>

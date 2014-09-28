@@ -9,7 +9,7 @@ import com.talentica.job4j.test.model.C;
 public class Job2OutputConsumer implements OutputConsumer<C>{
 	private static final Logger logger = LoggerFactory.getLogger(Job2OutputConsumer.class);
 	public void consumeOutput(C output, int counter) {
-		logger.debug("Consuming >> "+output);
+		logger.debug("xxxx Consuming >> "+output);
 	}
 
 }

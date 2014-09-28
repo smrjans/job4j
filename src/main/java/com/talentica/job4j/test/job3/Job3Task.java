@@ -4,19 +4,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.talentica.job4j.api.Task;
-import com.talentica.job4j.test.model.B;
 import com.talentica.job4j.test.model.C;
+import com.talentica.job4j.test.model.D;
 
-public class Job3Task implements Task<B, C> {
+public class Job3Task implements Task<C, D> {
 	private static final Logger logger = LoggerFactory.getLogger(Job3Task.class);
 	
-	public C processTask(B b) throws Exception {
-		logger.debug("Processing >> "+b);
-		C c = new C();
-		c.setId(b.getId());
-		c.setName(b.getName());
-		c.setDescription(b.getDescription());
-		return c;
+	public D processTask(C c) throws Exception {
+		logger.debug("Processing >> "+c);
+		D d = new D();
+		d.setId(c.getId());
+		d.setName(c.getName());
+		d.setDescription(c.getDescription());
+		return d;
 	}
 
 }
