@@ -47,7 +47,7 @@ Easy Configuration (currently using spring context file) to create Job:
 	
 	To create JobFlow:
 	-----------------
-		<bean id="jobGroup1" class="com.talentica.job4j.model.JobGroup">
+	<bean id="jobGroup1" class="com.talentica.job4j.model.JobGroup">
 		<property name="jobList">
 			<list>
 				<ref bean="testJob1"/>
@@ -72,6 +72,6 @@ Easy Configuration (currently using spring context file) to create Job:
 			</list>
 		</property>
 	</bean>
-		-----------------
+	-----------------
 		
 		
