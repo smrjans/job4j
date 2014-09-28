@@ -24,11 +24,13 @@ Future Works:
 2. Fork Join Implementation
 3. Map Reduce Implementation
 
-Easy Configuration (currently using spring context file) to create Job:
-----------
-    <bean id="job1InputProducer" class="com.talentica.job4j.test.job1.Job1InputProducer"/>
-    <bean id="job1Task" class="com.talentica.job4j.test.job1.Job1Task" scope="prototype"/>
-    <bean id="job1OutputConsumer" class="com.talentica.job4j.test.job1.Job1OutputConsumer"/> 
+Easy Configuration (currently using spring context file):
+
+	To create Job:
+	----------
+    	<bean id="job1InputProducer" class="com.talentica.job4j.test.job1.Job1InputProducer"/>
+    	<bean id="job1Task" class="com.talentica.job4j.test.job1.Job1Task" scope="prototype"/>
+    	<bean id="job1OutputConsumer" class="com.talentica.job4j.test.job1.Job1OutputConsumer"/> 
  	
   	<bean id="testJob1" class="com.talentica.job4j.impl.queue.QueueJob">
 	  	<property name="name" value="TestJob1" />
