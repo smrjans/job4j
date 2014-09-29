@@ -3,7 +3,7 @@ job4j
 
 Java framework to create batch job and workflow easily 
 
-It is not just another framework like JBatch/Spring Batch/Easy Batch
+It is not just another framework like JBatch/Spring Batch/Easy Batch. 
 job4j will support various batch processing technologies on a single platform.
 
 As of now it only supports BlockingQueue & ThreadPoolExecuter based solution.
