@@ -75,6 +75,6 @@ Easy Configuration (currently using spring context file):
 Future Works:
 
 	1. Configure Job via DB
-	2. XML Configuration (For non spring projects)
+	2. Custom job4j XML Configuration (For non spring projects)
 	3. Fork Join Implementation
 	4. Map Reduce Implementation
