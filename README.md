@@ -20,12 +20,6 @@ Basic Documentation:
 	It's initial version of implementation...
 	Design can change to accomodate future implementations.
 
-Future Works:
-
-	1. Configure Job via DB
-	2. Fork Join Implementation
-	3. Map Reduce Implementation
-
 Easy Configuration (currently using spring context file):
 
 	To create Job:
@@ -78,4 +72,9 @@ Easy Configuration (currently using spring context file):
 	</bean>
 	-----------------
 		
-		
+Future Works:
+
+	1. Configure Job via DB
+	2. XML Configuration (For non spring projects)
+	3. Fork Join Implementation
+	4. Map Reduce Implementation
