@@ -38,7 +38,8 @@ public class JobManagerImpl implements JobManager{
 	private Map<JobGroup, List<JobFlow>> jobFlowByJobGroupMap = new HashMap<JobGroup, List<JobFlow>>();
 
 	@PostConstruct
-	public void init() {		
+	public void init() {
+		//find parents
 		for(Job job : jobList){
 			List<JobGroup> jobGroups = jobGroupByJobMap.get(job);
 			if(jobGroups==null){
@@ -68,7 +69,8 @@ public class JobManagerImpl implements JobManager{
 		logger.debug("jobGroupByJobMap >> "+jobGroupByJobMap);
 		logger.debug("jobFlowByJobGroupMap >> "+jobFlowByJobGroupMap);
 
-		/*if(jobFlowList!=null && jobFlowList.size()>0){
+		//schedule jobs
+		if(jobFlowList!=null && jobFlowList.size()>0){
 			for(JobFlow jobFlow : jobFlowList){
 				jobFlow.schedule();
 			}
@@ -86,7 +88,9 @@ public class JobManagerImpl implements JobManager{
 					job.schedule();
 				}
 			}
-		}*/
+		}
+		
+		//connect jobs
 		for(JobFlow jobFlow :jobFlowList){
 			List<JobGroup> jobGroupList = jobFlow.getJobGroupList();
 			for(int jobGroupIndex=0; jobGroupIndex<jobGroupList.size()-1; jobGroupIndex++){ //last have no dependant

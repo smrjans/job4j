@@ -10,5 +10,4 @@
 	
 	<bean id="jobManager" class="com.talentica.job4j.impl.JobManagerImpl"/>
 
-	<import resource="classpath:test-job-flow.xml" />
 </beans>
