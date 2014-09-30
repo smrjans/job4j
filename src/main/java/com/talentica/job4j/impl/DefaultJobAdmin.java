@@ -15,15 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.talentica.job4j.api.InputProducer;
 import com.talentica.job4j.api.Job;
-import com.talentica.job4j.api.JobManager;
+import com.talentica.job4j.api.JobAdmin;
 import com.talentica.job4j.api.JobPipe;
 import com.talentica.job4j.api.OutputConsumer;
 import com.talentica.job4j.constant.JobTypeEnum;
 import com.talentica.job4j.model.JobFlow;
 import com.talentica.job4j.model.JobGroup;
 
-public class JobManagerImpl implements JobManager{	
-	private static final Logger logger = LoggerFactory.getLogger(JobManagerImpl.class);
+public class DefaultJobAdmin implements JobAdmin{	
+	private static final Logger logger = LoggerFactory.getLogger(DefaultJobAdmin.class);
 
 	@Autowired	
 	private List<Job> jobList;
@@ -146,7 +146,7 @@ public class JobManagerImpl implements JobManager{
 
 
 
-	public boolean processAction(String type, String name, String action){		
+	public boolean process(String type, String name, String action){		
 		boolean status=false;	
 		if(type==null){
 			type = "job";

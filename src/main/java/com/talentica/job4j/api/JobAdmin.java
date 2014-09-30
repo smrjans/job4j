@@ -5,10 +5,10 @@ import java.util.List;
 import com.talentica.job4j.model.JobFlow;
 import com.talentica.job4j.model.JobGroup;
 
-public interface JobManager {
+public interface JobAdmin {
 	
 	public List<JobFlow> getJobFlowList();
 	public List<JobGroup> getJobGroupList();
 	public List<Job> getJobList();
-	public boolean processAction(String type, String name, String action);
+	public boolean process(String type, String name, String action);
 }

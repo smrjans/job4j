@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import com.talentica.job4j.api.InputProducer;
+import com.talentica.job4j.api.InputProducerX;
 import com.talentica.job4j.api.Job;
 import com.talentica.job4j.api.OutputConsumer;
+import com.talentica.job4j.api.OutputConsumerX;
 import com.talentica.job4j.api.Task;
 import com.talentica.job4j.constant.RecoveryTypeEnum;
 import com.talentica.job4j.model.JobSchedule;
@@ -40,8 +42,8 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 	protected OutputConsumer<O> outputConsumer;
 	protected Task<I,O> task;
 	
-	protected AbstractInputProducer<I> abstractInputProducer;
-	protected AbstractOutputConsumer<O> abstractOutputConsumer;
+	protected InputProducerX<I> inputProducerX;
+	protected OutputConsumerX<O> outputConsumerX;
 	protected DefaultTask<I,O> defaultTask;
 	protected Thread jobThread;
 	protected BlockingQueue<Runnable> workQueue;
@@ -55,13 +57,13 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 		preStart();
 		if(inputProducerThread==null || !inputProducerThread.isAlive()){
 			logger.info("Creating new inputProducerThread...");			
-			this.abstractInputProducer.setFinished(false);
-			this.inputProducerThread = new Thread(abstractInputProducer, abstractInputProducer.getClass().getSimpleName());
+			this.inputProducerX.setFinished(false);
+			this.inputProducerThread = new Thread(inputProducerX, inputProducerX.getClass().getSimpleName());
 			inputProducerThread.start(); 
 		}
 		if(outputConsumerThread==null || !outputConsumerThread.isAlive()){
 			logger.info("Creating new OutputConsumerThread...");
-			this.outputConsumerThread = new Thread(abstractOutputConsumer, abstractOutputConsumer.getClass().getSimpleName());
+			this.outputConsumerThread = new Thread(outputConsumerX, outputConsumerX.getClass().getSimpleName());
 			outputConsumerThread.start();
 		}
 		if(jobThread==null || !jobThread.isAlive()){
@@ -77,7 +79,7 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 
 	public boolean stop() {
 		logger.info("Job "+ this.getClass().getSimpleName() +" stopped...");
-		abstractInputProducer.setFinished(true);
+		inputProducerX.setFinished(true);
 		jobStatus.setStopTime(new Date());
 		postStop();		
 		return true;
@@ -178,7 +180,7 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 	}
 	public void setInputProducer(InputProducer<I> inputProducer) {
 		this.inputProducer = inputProducer;
-		setAbstractInputProducer(null);
+		setInputProducerX(null);
 	}
 
 	public Task<I, O> getTask() {
@@ -193,7 +195,7 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 	}
 	public void setOutputConsumer(OutputConsumer<O> outputConsumer) {
 		this.outputConsumer = outputConsumer;
-		setAbstractOutputConsumer(null);
+		setOutputConsumerX(null);
 	}	
 	
 	// Start: Temporary	
@@ -206,8 +208,8 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 	}
 	// End: Temporary
 	
-	public abstract void setAbstractInputProducer(AbstractInputProducer<I> abstractInputProducer);
-	public abstract void setAbstractOutputConsumer(AbstractOutputConsumer<O> abstractOutputConsumer);
+	public abstract void setInputProducerX(InputProducerX<I> inputProducerX);
+	public abstract void setOutputConsumerX(OutputConsumerX<O> outputConsumerX);
 
 	public DefaultTask<I, O> createTask(I input) {
 		Task<I,O> task = applicationContext.getBean(this.task.getClass());
@@ -246,8 +248,8 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 				+ ", jobStatus=" + jobStatus + ", inputProducer="
 				+ inputProducer + ", outputConsumer=" + outputConsumer
 				+ ", task=" + task + ", abstractInputProducer="
-				+ abstractInputProducer + ", abstractOutputConsumer="
-				+ abstractOutputConsumer + ", defaultTask=" + defaultTask
+				+ inputProducerX + ", abstractOutputConsumer="
+				+ outputConsumerX + ", defaultTask=" + defaultTask
 				+ ", workQueue=" + workQueue + "]";
 	}	
 	

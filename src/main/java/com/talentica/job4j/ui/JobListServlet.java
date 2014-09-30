@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import com.talentica.job4j.api.JobManager;
+import com.talentica.job4j.api.JobAdmin;
 
 
 @WebServlet(urlPatterns = "/joblist", loadOnStartup = 1)
@@ -28,7 +28,7 @@ public class JobListServlet extends HttpServlet {
 	private static final Logger logger = LoggerFactory.getLogger(JobListServlet.class);
 	
 	@Autowired
-	private JobManager jobManager;
+	private JobAdmin jobAdmin;
 	
 	@Autowired
 	protected ApplicationContext applicationContext;
@@ -45,12 +45,12 @@ public class JobListServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String action = request.getParameter("action");
 		if(action!=null){
-			jobManager.processAction(type, name, action);
+			jobAdmin.process(type, name, action);
 		}
 		
-		request.setAttribute("jobFlowList", jobManager.getJobFlowList());
-		request.setAttribute("jobGroupList", jobManager.getJobGroupList());
-		request.setAttribute("jobList", jobManager.getJobList());
+		request.setAttribute("jobFlowList", jobAdmin.getJobFlowList());
+		request.setAttribute("jobGroupList", jobAdmin.getJobGroupList());
+		request.setAttribute("jobList", jobAdmin.getJobList());
 	    request.getRequestDispatcher("jsp/joblist.jsp").forward(request, response);
 	}
 

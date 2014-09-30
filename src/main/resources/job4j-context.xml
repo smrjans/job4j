@@ -8,6 +8,6 @@
 	<context:annotation-config/>
 	<context:property-placeholder location="classpath:job4j-config.properties" order="-100" ignore-unresolvable="true" ignore-resource-not-found="true"/>
 	
-	<bean id="jobManager" class="com.talentica.job4j.impl.JobManagerImpl"/>
+	<bean id="jobAdmin" class="com.talentica.job4j.impl.DefaultJobAdmin"/>
 
 </beans>

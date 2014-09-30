@@ -11,6 +11,8 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.talentica.job4j.api.InputProducerX;
+import com.talentica.job4j.api.OutputConsumerX;
 import com.talentica.job4j.constant.JobStatusEnum;
 import com.talentica.job4j.impl.AbstractInputProducer;
 import com.talentica.job4j.impl.AbstractJob;
@@ -72,14 +74,14 @@ public class QueueJob<I,O> extends AbstractJob<I, O> {
 					submit(input);	
 					counter++;
 				}
-				logger.debug(abstractInputProducer.isFinished() +" >>>> "+ inputQueue.isEmpty());
-				if(abstractInputProducer.isFinished() && inputQueue.isEmpty()){
+				logger.debug(inputProducerX.isFinished() +" >>>> "+ inputQueue.isEmpty());
+				if(inputProducerX.isFinished() && inputQueue.isEmpty()){
 					while(!threadPoolExecutor.isTerminated()){
 						threadPoolExecutor.shutdown();
 						ThreadUtil.sleep(1000, "Waiting for ThreadPoolExecuter be Terminated");
 					}
 					logger.debug("abstractOutputConsumer.setFinished >> ");
-					abstractOutputConsumer.setFinished(true);
+					outputConsumerX.setFinished(true);
 					stop();
 					break;
 				}
@@ -140,18 +142,18 @@ public class QueueJob<I,O> extends AbstractJob<I, O> {
 		this.outputQueue = outputQueue;
 	}
 
-	public void setAbstractInputProducer(AbstractInputProducer<I> abstractInputProducer) {
-		if(abstractInputProducer==null){
-			this.abstractInputProducer = new DefaultQueueInputProducer<I>(inputProducer);
+	public void setInputProducerX(InputProducerX<I> inputProducerX) {
+		if(inputProducerX==null){
+			this.inputProducerX = new DefaultQueueInputProducer<I>(inputProducer);
 		}
-		this.abstractInputProducer.setJob(this);
+		this.inputProducerX.setJob(this);
 	}
 
-	public void setAbstractOutputConsumer(AbstractOutputConsumer<O> abstractOutputConsumer) {
-		if(abstractOutputConsumer==null){
-			this.abstractOutputConsumer = new DefaultQueueOutputConsumer<O>(outputConsumer);
+	public void setOutputConsumerX(OutputConsumerX<O> outputConsumerX) {
+		if(outputConsumerX==null){
+			this.outputConsumerX = new DefaultQueueOutputConsumer<O>(outputConsumer);
 		}
-		this.abstractOutputConsumer.setJob(this);
+		this.outputConsumerX.setJob(this);
 	}
 
 }

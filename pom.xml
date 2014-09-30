@@ -4,7 +4,6 @@
 	<groupId>com.talentica</groupId>
 	<artifactId>job4j</artifactId>
 	<version>0.0.1</version>
-	<packaging>war</packaging>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -158,6 +157,13 @@
 				<directory>src/main/webapp</directory>
 				<targetPath>META-INF/resources</targetPath>
 			</resource>
-		</resources>		
+		</resources>	
+		
+		<plugins>
+        	<plugin>
+            	<groupId>org.springframework.boot</groupId>
+            	<artifactId>spring-boot-maven-plugin</artifactId>
+        	</plugin>
+    	</plugins>	
 	</build>
 </project>

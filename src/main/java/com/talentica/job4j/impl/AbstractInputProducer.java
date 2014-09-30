@@ -2,10 +2,11 @@ package com.talentica.job4j.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.talentica.job4j.api.InputProducer;
+
+import com.talentica.job4j.api.InputProducerX;
 import com.talentica.job4j.api.Job;
 
-public abstract class AbstractInputProducer<I> implements InputProducer<I>, Runnable{
+public abstract class AbstractInputProducer<I> implements InputProducerX<I>{
 
 	private static final Logger logger = LoggerFactory.getLogger(AbstractInputProducer.class);
 
