@@ -1,11 +1,8 @@
 package com.talentica.job4j.impl;
 
-import java.util.concurrent.Callable;
+import com.talentica.job4j.api.XTask;
 
-import com.talentica.job4j.api.Task;
-import com.talentica.job4j.api.TaskX;
-
-public abstract class AbstractTask<I,O> implements TaskX<I,O>{
+public abstract class AbstractTask<I,O> implements XTask<I,O>{
 	
 	protected I input;
 

@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.talentica.job4j.api.Job;
-import com.talentica.job4j.api.OutputConsumerX;
+import com.talentica.job4j.api.XOutputConsumer;
 
-public abstract class AbstractOutputConsumer<O> implements OutputConsumerX<O> {
+public abstract class AbstractOutputConsumer<O> implements XOutputConsumer<O> {
 
 	private static final Logger logger = LoggerFactory.getLogger(AbstractOutputConsumer.class);
 	
