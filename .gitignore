@@ -3,3 +3,4 @@
 *.prefs
 /target/
 /.settings/
+/release.properties
