@@ -221,12 +221,7 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 	
 	/*@PostConstruct
 	public void init() {
-		if(abstractInputProducer==null){
-			setAbstractInputProducer(null);
-		}
-		if(abstractOutputConsumer==null){
-			setAbstractOutputConsumer(null);
-		}
+		this.schedule();
 	}*/
 	
 	@PreDestroy
@@ -240,17 +235,7 @@ public abstract class AbstractJob<I,O> extends JobSchedule implements Job<I,O>, 
 
 	@Override
 	public String toString() {
-		return "AbstractJob [name=" + name + ", description=" + description
-				+ ", maxThreadCount=" + maxThreadCount + ", threadSleepTime="
-				+ threadSleepTime + ", maxIdleTime=" + maxIdleTime
-				+ ", mailingList=" + mailingList + ", isEmailEnabled="
-				+ isEmailEnabled + ", recoveryType=" + recoveryType
-				+ ", jobStatus=" + jobStatus + ", inputProducer="
-				+ inputProducer + ", outputConsumer=" + outputConsumer
-				+ ", task=" + task + ", abstractInputProducer="
-				+ xInputProducer + ", abstractOutputConsumer="
-				+ xOutputConsumer + ", defaultTask=" + defaultTask
-				+ ", workQueue=" + workQueue + "]";
-	}	
+		return this.getClass().getSimpleName()+" name=" + name ;
+	}
 	
 }

@@ -2,21 +2,16 @@ package com.talentica.job4j.model;
 
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.PostConstruct;
-
 import com.talentica.job4j.api.Job;
 import com.talentica.job4j.api.JobControl;
-import com.talentica.job4j.constant.JobStatusEnum;
 import com.talentica.job4j.util.CronUtil;
 
 public class JobGroup extends JobSchedule implements JobControl{	
 	protected String name;
 	protected JobStatus jobStatus = new JobStatus();
+	protected long threadSleepTime;
 	private List<Job> jobList;
 
-	@PostConstruct
 	public void init() {
 		if(name==null){
 			name="";
@@ -36,8 +31,17 @@ public class JobGroup extends JobSchedule implements JobControl{
 				}
 				if(CronUtil.getNextScheduledTime(job.getStopCronSchedule(), "UTC").before(CronUtil.getNextScheduledTime(stopCronSchedule, "UTC"))){
 					stopCronSchedule = job.getStopCronSchedule();
+				}				
+			}
+		}
+		
+		if(threadSleepTime==0){
+			threadSleepTime = jobList.get(0).getThreadSleepTime();
+			for(Job job : jobList){
+				if(job.getThreadSleepTime()>threadSleepTime){
+					threadSleepTime = job.getThreadSleepTime();
 				}
-			}	
+			}
 		}
 	}
 
@@ -55,6 +59,13 @@ public class JobGroup extends JobSchedule implements JobControl{
 		return jobStatus;
 	}
 
+	public long getThreadSleepTime() {
+		return threadSleepTime;
+	}
+
+	public void setThreadSleepTime(long threadSleepTime) {
+		this.threadSleepTime = threadSleepTime;
+	}
 
 	public List<Job> getJobList() {
 		return jobList;
@@ -100,4 +111,10 @@ public class JobGroup extends JobSchedule implements JobControl{
 		}
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "JobGroup [name=" + name + ", jobList=" + jobList + "]";
+	}	
+	
 }

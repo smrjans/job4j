@@ -3,8 +3,6 @@ package com.talentica.job4j.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import com.talentica.job4j.api.JobControl;
 import com.talentica.job4j.util.CronUtil;
 
@@ -13,7 +11,6 @@ public class JobFlow extends JobSchedule implements JobControl{
 	private JobStatus jobStatus = new JobStatus();
 	private List<JobGroup> jobGroupList;
 	
-	@PostConstruct
 	public void init() {
 		if(name==null){
 			name="";
@@ -35,7 +32,9 @@ public class JobFlow extends JobSchedule implements JobControl{
 					stopCronSchedule = jobGroup.getStopCronSchedule();
 				}
 			}	
+			//this.schedule();
 		}
+		
 	}
 	
 	public String getName() {
@@ -94,5 +93,9 @@ public class JobFlow extends JobSchedule implements JobControl{
 		}
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "JobFlow [name=" + name + ", jobGroupList=" + jobGroupList + "]";
+	}	
 }

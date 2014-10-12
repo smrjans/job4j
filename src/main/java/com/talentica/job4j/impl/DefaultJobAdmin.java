@@ -68,65 +68,102 @@ public class DefaultJobAdmin implements JobAdmin{
 
 		logger.debug("jobGroupByJobMap >> "+jobGroupByJobMap);
 		logger.debug("jobFlowByJobGroupMap >> "+jobFlowByJobGroupMap);
-
-		//schedule jobs
-		if(jobFlowList!=null && jobFlowList.size()>0){
-			for(JobFlow jobFlow : jobFlowList){
-				jobFlow.schedule();
-			}
-		}
-		if(jobGroupList!=null && jobGroupList.size()>0){
-			for(JobGroup jobGroup : jobGroupList){
-				if(jobFlowByJobGroupMap.get(jobGroup)==null || jobFlowByJobGroupMap.get(jobGroup).size()==0){
-					jobGroup.schedule();
-				}
-			}
-		}
-		if(jobList!=null && jobList.size()>0){	
-			for(Job job : jobList){
-				if(jobGroupByJobMap.get(job)==null || jobGroupByJobMap.get(job).size()==0){
-					job.schedule();
-				}
-			}
-		}
-		
+	
 		//connect jobs
 		for(JobFlow jobFlow :jobFlowList){
 			List<JobGroup> jobGroupList = jobFlow.getJobGroupList();
 			for(int jobGroupIndex=0; jobGroupIndex<jobGroupList.size()-1; jobGroupIndex++){ //last have no dependant
 				JobGroup jobGroup = jobGroupList.get(jobGroupIndex);
 				for(Job job: jobGroup.getJobList()){
-					List<Job> dependantJobList = getDependantJobList(job, jobGroupList.get(jobGroupIndex+1));
-					connectDependantJobs(job, dependantJobList);
+					connectDependantJobs(job, getDependantJobList(job, jobGroupList.get(jobGroupIndex+1)));
 				}
+			}
+		}
+		
+		for(JobFlow jobFlow : jobFlowList){
+			for(JobGroup jobGroup : jobFlow.getJobGroupList()){
+				jobGroup.init();
+			}
+			jobFlow.init();
+		}
+		
+		//set job/group threadSleepTime = current+prev
+		for(JobFlow jobFlow : jobFlowList){
+			for(int jobGroupIndex=1; jobGroupIndex<jobGroupList.size(); jobGroupIndex++){ //last have no dependant
+				JobGroup jobGroup = jobGroupList.get(jobGroupIndex);
+				long threadSleepTime = jobGroup.getThreadSleepTime()+3*jobGroupList.get(jobGroupIndex-1).getThreadSleepTime();
+				jobGroup.setThreadSleepTime(threadSleepTime);
+				logger.debug(jobGroup.getName()+" threadSleepTime: "+threadSleepTime);
+				for(Job job: jobGroup.getJobList()){
+					job.setThreadSleepTime(threadSleepTime);
+					logger.debug(job.getName()+" threadSleepTime: "+threadSleepTime);
+				}
+			}
+		}
+		
+		//schedule jobs
+		for(JobFlow jobFlow : jobFlowList){
+			jobFlow.schedule();
+		}
+		for(JobGroup jobGroup : jobGroupList){
+			if(jobFlowByJobGroupMap.get(jobGroup)==null || jobFlowByJobGroupMap.get(jobGroup).size()==0){
+				jobGroup.init();
+				jobGroup.schedule();
+			}
+		}
+		for(Job job : jobList){
+			if(jobGroupByJobMap.get(job)==null || jobGroupByJobMap.get(job).size()==0){
+				job.schedule();
 			}
 		}
 	}
 
 	private List<Job> getDependantJobList(Job job, JobGroup nextJobGroup) {
+		logger.debug("jobName>> "+job.getName()+" nextJobGroupName>> "+nextJobGroup.getName());
 		List<Job> dependantJobList = new ArrayList<Job>();
-		Type inputType = findParameterType(job.getOutputConsumer(), OutputConsumer.class);
-		logger.debug("inputType >> "+inputType);
-		for(Job nextJob: nextJobGroup.getJobList()){			
-			Type outputType = findParameterType(nextJob.getInputProducer(), InputProducer.class);
-			logger.debug("outputType >> "+outputType);
-			if(inputType==outputType){
-				logger.debug(job.getName()+ "added >> "+nextJob.getName());
+		Type outputType = findParameterType(job.getOutputConsumer(), OutputConsumer.class);
+		logger.debug(job.getName()+" using OutputConsumer outputType >> "+outputType);
+
+		for(Job nextJob: nextJobGroup.getJobList()){
+			Type nextInputType = null;
+			if(nextJob.getInputProducer() instanceof JobPipe){
+				nextInputType = ((JobPipe)nextJob.getInputProducer()).getDataType();
+				logger.debug(nextJob.getName()+" using JobPipe nextInputType >> "+nextInputType);
+			}else{
+				nextInputType = findParameterType(nextJob.getInputProducer(), InputProducer.class);
+				logger.debug(nextJob.getName()+" using InputProducer nextInputType >> "+nextInputType);
+			}
+
+			if(outputType==nextInputType){
+				logger.debug(job.getName()+" added dependency >> "+nextJob.getName());
 				dependantJobList.add(nextJob);
 			}
 		}
-		logger.debug("Get currentJob>> "+job+" DependantJobList >> "+dependantJobList);
+		
+		logger.debug(job.getName()+" final dependantJobList >> "+dependantJobList);
 		return dependantJobList;
 	}
 	
 	private void connectDependantJobs(Job job, List<Job> dependantJobList) {
 		if(dependantJobList!=null && dependantJobList.size()>0){
+			logger.debug("Connecting "+job.getName()+" with dependantJobList >> "+dependantJobList);
 			for(Job dependantJob : dependantJobList){
-				JobPipe jobPipe = new DefaultJobPipe();
+				JobPipe jobPipe = null;				
+				if(dependantJob.getInputProducer() instanceof JobPipe){
+					jobPipe = (JobPipe) dependantJob.getInputProducer();
+					logger.debug(job.getName()+" Reusing dependantJob "+"dependantJob.getName()"+"'s Pipe");
+				}else if(job.getOutputConsumer() instanceof JobPipe){
+					jobPipe = (JobPipe) job.getOutputConsumer();
+					logger.debug(job.getName()+" Reusing currentJob's Pipe");
+				}else{
+					jobPipe = new DefaultJobPipe(findParameterType(job.getOutputConsumer(), OutputConsumer.class));
+					logger.debug(job.getName()+" Creating new Pipe");
+				}
+				
 				job.setOutputConsumer(jobPipe);
 				dependantJob.setInputProducer(jobPipe);
 			}
-			logger.debug("Connected currentJob>> "+job+" DependantJobList >> "+dependantJobList);
+			logger.debug(job.getName()+" Connected with dependantJobList >> "+dependantJobList);
 		}		
 	}
 

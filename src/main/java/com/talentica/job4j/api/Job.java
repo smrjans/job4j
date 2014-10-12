@@ -19,6 +19,8 @@ public interface Job<I,O> extends JobControl{
 	public void setStopCronSchedule(String stopCronSchedule);
 	public String getTimeZone();
 	public void setTimeZone(String timeZone);
+	public long getThreadSleepTime();
+	public void setThreadSleepTime(long threadSleepTime);
 	public JobStatus getJobStatus();
 	
 	public InputProducer<I> getInputProducer();

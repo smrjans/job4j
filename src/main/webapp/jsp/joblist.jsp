@@ -128,9 +128,9 @@
 				<td><strong>Active</strong></td>				
 				<td><strong>ThreadPool</strong></td>
 				
-				<td><strong>InputQueue</strong></td>				
+				<!-- <td><strong>InputQueue</strong></td>				
 				<td><strong>WorkQueue</strong></td>				
-				<td><strong>OutputQueue</strong></td>
+				<td><strong>OutputQueue</strong></td> -->
 				
 				<td><strong>Action</strong></td>
 
@@ -148,9 +148,9 @@
 				<td>${job.jobStatus.activeTaskCount}</td>	
 				<td>${job.jobStatus.currentThreadCount}/${job.maxThreadCount}</td>
 				
-				<td>${job.inputQueue.size()}</td>				
+				<%-- <td>${job.inputQueue.size()}</td>				
 				<td>${job.workQueue.size()}</td>		
-				<td>${job.outputQueue.size()}</td>		
+				<td>${job.outputQueue.size()}</td>	 --%>	
 						
 				<c:url value="" var="startUrl">
 					<c:param name="type" value="job" />
