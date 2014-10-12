@@ -18,8 +18,7 @@ Basic Documentation:
 	6. Multiple JobGroup can be added to a JobFlow which runs sequentially.
 	7. If a JobFlow contains Jobs in its two adjacent JobGroup, where output of a Job in 1st JobGroup is of same type as input of another Job in next JobGroup, a JobPipe gets created automatically for data flow.  
 	8. Developers just need to implement 3 Interfaces(1 method in each): InputProducer, Task, OutputConsumer
-	9. Sample Code: https://github.com/smsahu/job4j-demo
-	10. Job can be controlled/monitored by web: http://localhost:8080/job4j-0.0.1/joblist
+	9. Job can be controlled/monitored by web: http://localhost:8080/job4j-0.0.1/joblist
 
 	
 	It's initial version of implementation...
@@ -76,6 +75,12 @@ Easy Configuration (currently using spring context file):
 		</property>
 	</bean>
 	-----------------
+	
+Demo:
+	https://github.com/smsahu/job4j-demo
+	
+Presentation:
+	https://speakerdeck.com/smsahu/job4j-overview
 		
 Future Works:
 
