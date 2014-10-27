@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.talentica</groupId>
 	<artifactId>job4j</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>job4j</name>
 	<url>https://github.com/smsahu/job4j</url>
 	<description>Java Framework for Batch Job and workflow</description>
