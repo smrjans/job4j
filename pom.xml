@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.talentica</groupId>
 	<artifactId>job4j</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>job4j</name>
 	<url>https://github.com/smsahu/job4j</url>
 	<description>Java Framework for Batch Job and workflow</description>
@@ -37,7 +36,7 @@
 		<connection>scm:git:git://github.com/smsahu/job4j.git</connection>
 		<developerConnection>scm:git:git@github.com:smsahu/job4j.git</developerConnection>
 		<url>https://github.com/smsahu/job4j</url>
-		<tag>0.0.1</tag>
+		<tag>Initial Release</tag>
 	</scm>
 
 	<issueManagement>
