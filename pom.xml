@@ -1,8 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.talentica</groupId>
 	<artifactId>job4j</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>job4j</name>
 	<url>https://github.com/smsahu/job4j</url>
 	<description>Java Framework for Batch Job and workflow</description>
@@ -10,6 +11,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<github.global.server>github</github.global.server>
 		<spring.framework.version>4.0.6.RELEASE</spring.framework.version>
 		<cron4j.version>2.2.5</cron4j.version>
 		<disruptor.version>3.3.0</disruptor.version>
@@ -35,8 +37,13 @@
 		<connection>scm:git:git://github.com/smsahu/job4j.git</connection>
 		<developerConnection>scm:git:git@github.com:smsahu/job4j.git</developerConnection>
 		<url>https://github.com/smsahu/job4j</url>
-	  <tag>0.0.1</tag>
-  </scm>
+		<tag>0.0.1</tag>
+	</scm>
+
+	<issueManagement>
+		<url>https://github.com/smsahu/job4j/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
 
 	<developers>
 		<developer>
@@ -209,10 +216,26 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
+					<!-- <plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-site-plugin</artifactId>
 						<version>3.3</version>
+					</plugin> -->
+					<plugin>
+						<groupId>com.github.github</groupId>
+						<artifactId>site-maven-plugin</artifactId>
+						<version>0.9</version>
+						<configuration>
+							<message>Creating site for ${project.version}</message>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>site</goal>
+								</goals>
+								<phase>site</phase>
+							</execution>
+						</executions>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
