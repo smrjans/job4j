@@ -1,6 +1,8 @@
 job4j
 =====
 
+[![Join the chat at https://gitter.im/smsahu/job4j](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/smsahu/job4j?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Java framework to create batch job and workflow easily 
 
 It is not just another framework like JBatch/Spring Batch/Easy Batch. 
