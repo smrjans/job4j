@@ -77,10 +77,10 @@ Easy Configuration (currently using spring context file):
 	-----------------
 	
 Demo:
-	https://github.com/smsahu/job4j-demo
+	https://github.com/smrjan/job4j-demo
 	
 Presentation:
-	https://speakerdeck.com/smsahu/job4j-overview
+	https://speakerdeck.com/smrjan/job4j-overview
 		
 Future Works:
 
