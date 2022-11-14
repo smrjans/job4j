@@ -11,7 +11,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<github.global.server>github</github.global.server>
-		<spring.framework.version>4.0.6.RELEASE</spring.framework.version>
+		<spring.framework.version>4.2.7.RELEASE</spring.framework.version>
 		<cron4j.version>2.2.5</cron4j.version>
 		<disruptor.version>3.3.0</disruptor.version>
 		<javamelody-version>1.52.0</javamelody-version>
